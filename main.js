@@ -1,32 +1,50 @@
 function resultado() {
-  let qtRecebeHora = document.getElementById("qtRecebeHora").value  ;
+   let qtRecebeHora = document.getElementById("qtRecebeHora").value;
   let qtdHorasMes = document.getElementById("qtdHorasMes").value;
   let resposta = document.getElementById("resposta");
-  let resultadoMult = qtRecebeHora * qtdHorasMes;
+  let resMultiplica = qtRecebeHora * qtdHorasMes;
+  
+  if (qtRecebeHora == "" || qtdHorasMes == "") 
+  return alert("Preencha todos os campos");
+
+  let conta 
+
+  if ( resMultiplica <= 900) conta = "isento";
+  if ( resMultiplica > 900 &&  resMultiplica <= 1500) conta = "minimo";
+  if ( resMultiplica > 1500 &&  resMultiplica <= 2500) conta = "medio";
+  if ( resMultiplica >= 2501) conta = "maximo";
 
 
-  if(qtRecebeHora == "" || qtdHorasMes == ""){
-    alert ("Preencha todos os campos");
+  switch (conta) {
+    case "isento":
+      resposta.innerHTML = "Você esta isento de desconto de INSS";
+      break;
+    case "minimo":
+      imprime(5,  resMultiplica);
+      break;
+    case "medio":
+      imprime(10,  resMultiplica);
+      break;
+    case "maximo":
+      imprime(20,  resMultiplica);
+      break;
+    default:
+      resposta.innerHTML = "error"
   }
-
-  if (resultadoMult <= 901){
-       resposta.innerHTML = "Você esta isento de desconto de INSS";
-  }
-  if (resultadoMult <= 1500){
-    let impostoRenda = (resultadoMult * 5) / 100;
-    let sindicato = (resultadoMult * 3) / 100;
-    let fgts = (resultadoMult * 11) / 100;
-    let salarioLiquido = resultadoMult - impostoRenda - sindicato - fgts; 
-    
-    resposta.innerHTML = `
-    Salário bruto: R$ ${resultadoMult}
-    <br/>(-) Imposto de renda (5%): R$  ${impostoRenda}
-    <br/>(-) Sindicato (3%): R$  ${sindicato}
-    <br/>(-) FGTS (11%): R$  ${fgts}
-    <br/>Salário líquido: R$ ${salarioLiquido}
-    `
 }
-  else{
-    alert('error1')
-  }
+
+function imprime(impDeRenda,  resMultiplica) {
+  let impostoRenda = ( resMultiplica * impDeRenda) / 100;
+  let sindicato = ( resMultiplica * 3) / 100;
+  let fgts = ( resMultiplica * 11) / 100;
+  let salarioLiquido =  resMultiplica - impostoRenda - sindicato - fgts;
+
+  resposta.innerHTML = `
+  Salário bruto: R$ ${ resMultiplica}
+  <br/>(-) Imposto de renda (${impDeRenda}%): R$  ${impostoRenda}
+  <br/>(-) Sindicato (3%): R$  ${sindicato}
+  <br/>(-) FGTS (11%): R$  ${fgts}
+  <br/>Salário líquido: R$ ${salarioLiquido}
+  `;
 }
+
